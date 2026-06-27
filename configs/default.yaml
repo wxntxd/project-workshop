@@ -1,0 +1,42 @@
+# Единый конфигурационный файл экспериментов.
+# Каждый параметр можно переопределить из командной строки: --epochs 20 --lr 0.001
+
+project_name: cv-kitti-detection
+seed: 42
+
+data:
+  raw_dir: data/raw/kitti           # сюда распаковывается оригинальный KITTI
+  processed_dir: data/processed     # сюда пишутся COCO-аннотации и YOLO-разметка
+  coco_train_ann: data/processed/coco/instances_train.json
+  coco_val_ann:   data/processed/coco/instances_val.json
+  yolo_yaml:      data/processed/yolo/kitti.yaml
+  images_dir:     data/raw/kitti/training/image_2
+  val_fraction: 0.2                 # доля валидации при стратифицированном сплите
+  # Маппинг 8 размеченных классов KITTI -> 4 рабочих класса
+  # (DontCare/Misc отбрасываются на этапе конвертации)
+  classes: [car, pedestrian, cyclist, truck]
+
+train:
+  epochs: 15
+  batch_size: 4
+  img_size: 640
+  optimizer: adamw                  # adamw | sgd
+  lr: 0.0001
+  weight_decay: 0.0005
+  momentum: 0.9                     # используется только для sgd
+  lr_scheduler: cosine              # cosine | step | none
+  warmup_epochs: 1
+  num_workers: 2
+  amp: true                         # mixed precision (ускоряет обучение на GPU)
+  device: cuda                      # cuda | cpu
+
+eval:
+  score_threshold: 0.05             # порог уверенности при инференсе для расчёта mAP
+  iou_threshold: 0.5                # основной порог IoU для mAP@0.5
+  max_detections: 100
+
+output:
+  results_dir: results
+  plots_dir: results/plots
+  logs_dir: results/logs
+  checkpoints_dir: results/checkpoints

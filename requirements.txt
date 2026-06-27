@@ -1,0 +1,21 @@
+# Базовое окружение (проверено для Python 3.10–3.11, CUDA 11.8 / Google Colab T4)
+torch>=2.1.0
+torchvision>=0.16.0
+numpy>=1.24
+pyyaml>=6.0
+tqdm>=4.66
+matplotlib>=3.7
+pillow>=10.0
+opencv-python>=4.8
+pandas>=2.0
+
+# Детекторы
+ultralytics>=8.1.0          # YOLOv8
+transformers>=4.38.0        # DETR (facebook/detr-resnet-50)
+timm>=0.9.12                # backbone для EfficientDet
+effdet>=0.4.1               # EfficientDet
+pycocotools>=2.0.7          # расчёт mAP в формате COCO
+
+# Логирование / визуализация (опционально)
+tensorboard>=2.15
+seaborn>=0.13
